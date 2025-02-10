@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :project do
-    owner { nil }
-    name { 'MyString' }
-    status { 1 }
+    association :owner, factory: :project_owner
+    name { 'FactoryBot Project' }
+    status { 0 }
   end
 end
