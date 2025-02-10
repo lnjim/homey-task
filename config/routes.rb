@@ -17,4 +17,9 @@ Rails.application.routes.draw do
     root to: 'devise/sessions#new', as: :unauthenticated_root
   end
 
+  resources :projects do
+    member do
+      patch :update_status
+    end
+  end
 end
