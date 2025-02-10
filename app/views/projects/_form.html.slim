@@ -11,8 +11,4 @@
     = form.text_field :name
 
   div
-    = form.label :status, style: "display: block"
-    = form.select :status, Project.statuses.keys
-
-  div
     = form.submit

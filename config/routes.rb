@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :projects do
     member do
       patch :update_status
+      post :create_comment
     end
   end
 end

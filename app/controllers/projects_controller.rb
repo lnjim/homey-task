@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %i[show edit update destroy update_status]
+  before_action :set_project, only: %i[show edit update destroy update_status create_comment]
   before_action :ensure_owner, only: %i[edit update destroy]
 
   # GET /projects or /projects.json
@@ -32,6 +32,20 @@ class ProjectsController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_comment
+    @comment = Comment.new(project_id: @project.id, user_id: current_user.id, content: comment_params[:content])
+
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to @project, notice: 'Comment was successfully created.' }
+        format.json { render :show, status: :created, location: @project }
+      else
+        format.html { render :show, status: :unprocessable_entity }
+        format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -86,6 +100,10 @@ class ProjectsController < ApplicationController
 
   def status_params
     params.require(:project).permit(:status)
+  end
+
+  def comment_params
+    params.require(:comment).permit(:content)
   end
 
   def ensure_owner
