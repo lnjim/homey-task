@@ -52,6 +52,7 @@ class ProjectsController < ApplicationController
   def update_status
     respond_to do |format|
       if @project.update(status_params)
+        StatusHistory.create!(project_id: @project.id, user_id: current_user.id, status: status_params[:status])
         format.html { redirect_to @project, notice: 'Project status was successfully updated.' }
         format.json { render :show, status: :ok, location: @project }
       else
