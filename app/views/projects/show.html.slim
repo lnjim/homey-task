@@ -18,3 +18,19 @@ div
 
     div
       = form.submit "Update status"
+
+  h3 Add comment
+  = form_with model: Comment.new, url: create_comment_project_path(@project), method: :post do |form|
+    div
+      = form.text_area :content
+      = form.submit "Add comment"
+
+  h3 Conversation history
+  - if @project.conversation_history.any?
+    ul
+      - @project.conversation_history.each do |entry|
+        li
+          = entry.display_entry
+          small = " (#{entry.created_at.strftime("%Y-%m-%d %H:%M")})"
+  - else
+    p No conversation history
