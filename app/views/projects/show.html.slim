@@ -1,0 +1,20 @@
+p style="color: green" = notice
+
+== render @project
+
+div
+  -if current_user == @project.owner
+    => link_to "Edit this project", edit_project_path(@project)
+    '|
+  =< link_to "Back to projects", projects_path
+
+  - if current_user == @project.owner
+    = button_to "Destroy this project", @project, method: :delete
+
+  h3 Change status
+  = form_with model: @project, url: update_status_project_path(@project), method: :patch do |form|
+    div
+      = form.select :status, Project.statuses.keys
+
+    div
+      = form.submit "Update status"

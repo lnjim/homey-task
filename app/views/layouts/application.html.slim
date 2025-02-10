@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title MyApp
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+  body
+    header
+      nav
+        - if user_signed_in?
+          = current_user.email
+          = button_to "Logout", destroy_user_session_path, method: :delete
+    main
+      = yield
